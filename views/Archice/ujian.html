@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ujian Siswa</title>
+  <link rel="stylesheet" href="/vendor/bootstrap/bootstrap.min.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <div class="container py-3">
+    <h3 class="mb-4 text-center">Ujian Siswa</h3>
+
+    <div class="d-flex justify-content-between mb-3">
+      <div>
+        <label>Nama: <input id="nama" class="form-control form-control-sm d-inline w-auto"></label>
+        <label class="ms-2">Kelas: <input id="kelas" class="form-control form-control-sm d-inline w-auto"></label>
+      </div>
+      <div id="timer" class="fw-bold text-danger fs-5"></div>
+    </div>
+
+    <div id="kontainer-soal" class="mb-4"></div>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div id="navigator-soal" class="d-flex gap-1 flex-wrap"></div>
+      <button id="submitUjian" class="btn btn-success">Selesai</button>
+    </div>
+  </div>
+
+  <script src="/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/common/utils.js"></script>
+  <script src="/js/siswa/ujian.js"></script>
+  <script src="/js/siswa/antiSwitch.js"></script>
+</body>
+</html>

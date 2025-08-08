@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ujian Siswa</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center px-4 py-8">
+  <div class="max-w-2xl w-full rounded-xl border bg-white shadow-lg">
+    <!-- Header -->
+    <div class="px-6 pt-6 pb-4 border-b">
+      <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-2">
+        <div>
+          <h1 class="text-2xl font-bold text-gray-800">Science & Technology Challenge</h1>
+          <p class="text-sm text-gray-500">Test your knowledge of scientific discoveries and technological innovations.</p>
+        </div>
+        <div class="flex items-center gap-2 text-gray-500">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <polyline points="12 6 12 12 16 14" />
+          </svg>
+          <span id="timer">1:12</span>
+        </div>
+      </div>
+
+      <!-- Progress bar -->
+      <div class="mt-4">
+        <div class="w-full bg-gray-200 rounded-full h-2">
+          <div id="progressBar" class="bg-blue-600 h-2 rounded-full transition-all duration-300" style="width: 20%"></div>
+        </div>
+        <div class="flex justify-between mt-1 text-xs text-gray-500">
+          <span>Question 1 of 5</span>
+          <span>20% Complete</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Question Section -->
+    <div class="px-6 py-6">
+      <div class="space-y-6">
+        <h2 class="text-lg font-medium text-gray-800">Which of these is NOT a programming language?</h2>
+        <div class="space-y-3">
+          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-100">
+            <input type="radio" name="jawaban" value="Java" class="h-4 w-4 text-blue-600" />
+            <span class="ml-3 text-sm">Java</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-100">
+            <input type="radio" name="jawaban" value="Python" class="h-4 w-4 text-blue-600" checked />
+            <span class="ml-3 text-sm">Python</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-100">
+            <input type="radio" name="jawaban" value="HTML" class="h-4 w-4 text-blue-600" />
+            <span class="ml-3 text-sm">HTML</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-100">
+            <input type="radio" name="jawaban" value="Jaguar" class="h-4 w-4 text-blue-600" />
+            <span class="ml-3 text-sm">Jaguar</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="px-6 pb-6 pt-2 border-t flex justify-between">
+      <button class="px-4 py-2 text-sm border rounded-md text-blue-600 hover:bg-blue-50" disabled>Previous</button>
+      <button class="px-4 py-2 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700">Next Question</button>
+    </div>
+  </div>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+</body>
+</html>

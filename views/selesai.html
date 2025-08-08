@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ujian Selesai</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .correct-answer { background-color: #D1FAE5; border-color: #34D399; }
+        .wrong-answer { background-color: #FEE2E2; border-color: #F87171; }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-4 md:p-8 max-w-4xl">
+        
+        <header class="text-center bg-white p-8 rounded-lg shadow-md mb-8">
+            <div class="flex justify-center mb-4">
+                <div class="bg-green-100 text-green-600 rounded-full p-3">
+                    <i data-lucide="check-circle-2" class="w-12 h-12"></i>
+                </div>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-800">Ujian Telah Selesai!</h1>
+            <p id="ucapan-selamat" class="text-gray-600 mt-2"></p>
+            
+            <!-- Kontainer Nilai (ditampilkan/disembunyikan oleh JS) -->
+            <div id="nilai-container" class="mt-6 hidden">
+                <p class="text-lg text-gray-500">Nilai Akhir Anda</p>
+                <p id="nilai-akhir" class="text-6xl font-bold text-indigo-600">0</p>
+            </div>
+            <!-- Pesan jika nilai disembunyikan -->
+            <div id="nilai-tersembunyi-pesan" class="mt-6 bg-blue-50 p-4 rounded-lg hidden">
+                <p class="text-blue-700">Nilai Anda akan diumumkan oleh guru.</p>
+            </div>
+
+            <div class="mt-8">
+                <a href="/ujian" class="bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition">
+                    Kembali ke Halaman Ujian
+                </a>
+            </div>
+        </header>
+
+        <!-- Tombol Review (ditampilkan/disembunyikan oleh JS) -->
+        <div id="tombol-review-container" class="text-center mb-8 hidden">
+            <button id="toggle-review-btn" class="text-indigo-600 font-semibold hover:underline">
+                Lihat Ulasan Jawaban
+            </button>
+        </div>
+
+        <main id="review-container" class="hidden">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Ulasan Jawaban</h2>
+            <div id="review-list" class="space-y-6"></div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const namaSiswa = urlParams.get('nama') || 'Siswa';
+            const nilaiAkhir = urlParams.get('nilai');
+
+            document.getElementById('ucapan-selamat').textContent = `Terima kasih telah menyelesaikan ujian, ${namaSiswa}!`;
+
+            // Tampilkan nilai berdasarkan parameter URL
+            if (nilaiAkhir && nilaiAkhir !== 'hidden') {
+                document.getElementById('nilai-akhir').textContent = nilaiAkhir;
+                document.getElementById('nilai-container').classList.remove('hidden');
+            } else {
+                document.getElementById('nilai-tersembunyi-pesan').classList.remove('hidden');
+            }
+
+            // Tampilkan tombol review jika ada data di localStorage
+            const reviewDataString = localStorage.getItem('hasilUjianReview');
+            if (reviewDataString) {
+                document.getElementById('tombol-review-container').classList.remove('hidden');
+                try {
+                    const reviewData = JSON.parse(reviewDataString);
+                    renderReview(reviewData);
+                } catch (error) {
+                    document.getElementById('review-list').innerHTML = '<p class="text-center text-red-500">Gagal memuat ulasan.</p>';
+                }
+            }
+            
+            // Logika untuk tombol toggle review
+            const toggleBtn = document.getElementById('toggle-review-btn');
+            const reviewContainer = document.getElementById('review-container');
+            toggleBtn.addEventListener('click', () => {
+                const isHidden = reviewContainer.classList.contains('hidden');
+                if (isHidden) {
+                    reviewContainer.classList.remove('hidden');
+                    toggleBtn.textContent = 'Sembunyikan Ulasan Jawaban';
+                } else {
+                    reviewContainer.classList.add('hidden');
+                    toggleBtn.textContent = 'Lihat Ulasan Jawaban';
+                }
+            });
+        });
+
+        function renderReview(data) {
+            const { soalList, jawabanSiswa } = data;
+            const reviewListContainer = document.getElementById('review-list');
+            reviewListContainer.innerHTML = '';
+
+            soalList.forEach((soal, index) => {
+                const jawabanUser = jawabanSiswa[soal.id];
+                const jawabanBenar = soal.jawaban_benar.toUpperCase();
+                const reviewItem = document.createElement('div');
+                reviewItem.className = 'bg-white p-6 rounded-lg shadow-md';
+                
+                let pilihanHtml = ["a", "b", "c", "d", "e"].map(opt => {
+                    const pilihanTeks = soal[`pilihan_${opt}`];
+                    if (!pilihanTeks) return '';
+                    const optUpper = opt.toUpperCase();
+                    let classes = 'flex items-start gap-3 border rounded-lg p-3';
+                    if (optUpper === jawabanBenar) classes += ' correct-answer';
+                    if (optUpper === jawabanUser && jawabanUser !== jawabanBenar) classes += ' wrong-answer';
+                    return `<div class="${classes}"><div class="font-semibold">${optUpper}.</div><div class="text-sm flex-grow">${pilihanTeks}</div></div>`;
+                }).join('');
+
+                reviewItem.innerHTML = `
+                    <div class="flex justify-between items-start mb-4">
+                        <p class="font-semibold text-gray-800">${index + 1}. ${soal.pertanyaan}</p>
+                        ${jawabanUser === jawabanBenar 
+                            ? '<span class="text-xs font-bold text-green-600 bg-green-100 px-2 py-1 rounded-full">Benar</span>'
+                            : '<span class="text-xs font-bold text-red-600 bg-red-100 px-2 py-1 rounded-full">Salah</span>'
+                        }
+                    </div>
+                    <div class="space-y-2">${pilihanHtml}</div>
+                    <div class="mt-4 text-sm">
+                        <p>Jawaban Anda: <strong class="text-indigo-600">${jawabanUser || 'Tidak Dijawab'}</strong></p>
+                        <p>Kunci Jawaban: <strong class="text-green-600">${jawabanBenar}</strong></p>
+                    </div>
+                `;
+                reviewListContainer.appendChild(reviewItem);
+            });
+        }
+    </script>
+</body>
+</html>

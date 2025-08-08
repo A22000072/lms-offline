@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hasil Ujian</title>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Icon (Opsional) -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <!-- Script hasil ujian -->
+</head>
+<body class="bg-gradient-to-tr from-indigo-50 via-white to-indigo-100 min-h-screen flex items-center justify-center text-gray-800">
+
+  <div class="bg-white rounded-3xl shadow-xl p-10 max-w-2xl w-full">
+    <div class="text-center">
+      <h1 class="text-4xl font-bold text-green-600 mb-4">Ujian Telah Selesai</h1>
+      <p class="text-lg text-gray-600 mb-6">Terima kasih telah mengikuti ujian dengan baik.</p>
+    </div>
+
+    <div id="nilai-container" class="hidden text-center mb-10">
+      <h2 class="text-xl font-semibold text-gray-700 mb-2">Nilai Anda:</h2>
+      <div class="text-5xl font-extrabold text-indigo-600" id="nilai-akhir">0</div>
+    </div>
+
+    <div id="review-container" class="hidden mt-8">
+      <h3 class="text-2xl font-semibold text-gray-700 mb-6">Review Jawaban</h3>
+      <div id="review-list" class="space-y-6">
+        <!-- Soal dan jawaban akan dimasukkan di sini -->
+      </div>
+    </div>
+  </div>
+  <script src="/js/selesai/selesai.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Guru</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: '#2563EB',
+              secondary: '#FBBF24'
+            },
+            boxShadow: {
+              soft: '0 2px 8px rgba(0,0,0,0.05)'
+            },
+            borderRadius: {
+              xl: '1rem',
+              '2xl': '1.5rem'
+            }
+          }
+        }
+      }
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+  </head>
+  <body class="bg-gray-50 text-gray-800">
+    <div class="flex min-h-screen">
+      <!-- Sidebar -->
+<aside class="fixed top-0 left-0 h-screen w-64 bg-white border-r border-gray-200 px-6 py-8 hidden md:block shadow-soft z-50">
+    <h1 class="text-2l font-bold mb-10 flex items-center gap-2">
+      <i data-lucide="book-open" class="w-6 h-6"></i>
+      Bupia Sociology Learning
+    </h1>
+    <nav class="space-y-2">
+      <button onclick="handleTabClick('soal')" class="w-full flex items-center gap-2 text-left py-2 px-4 rounded-xl hover:bg-gray-100 transition font-medium" id="nav-soal">
+        <i data-lucide="file-text" class="w-5 h-5"></i> Soal
+      </button>
+      <button onclick="handleTabClick('hasil')" class="w-full flex items-center gap-2 text-left py-2 px-4 rounded-xl hover:bg-gray-100 transition font-medium" id="nav-hasil">
+        <i data-lucide="bar-chart" class="w-5 h-5"></i> Hasil Ujian
+      </button>
+      <button onclick="handleTabClick('monitoring')" class="w-full flex items-center gap-2 text-left py-2 px-4 rounded-xl hover:bg-gray-100 transition font-medium" id="nav-monitoring">
+        <i data-lucide="activity" class="w-5 h-5"></i> Monitoring
+      </button>
+      <button onclick="handleTabClick('pengaturan')" class="w-full flex items-center gap-2 text-left py-2 px-4 rounded-xl hover:bg-gray-100 transition font-medium" id="nav-pengaturan">
+      <i data-lucide="settings" class="w-5 h-5"></i> Pengaturan
+     </button>
+    </nav>
+  </aside>
+
+      <!-- Main Content -->
+        <main class="flex-1 ml-0 md:ml-64 p-6 transition-all duration-300">
+        <!-- Header -->
+        <header class="mb-8 flex justify-between items-center">
+          <h2 class="text-3xl font-bold tracking-tight">Dashboard Guru</h2>
+          <div class="flex items-center gap-4">
+            <div class="text-sm text-gray-600">Halo, <span class="font-semibold">Bupia</span></div>
+            <div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold shadow">G</div>
+          </div>
+        </header>
+
+        <!-- Tab Content -->
+        <section id="tab-soal" class="tab-section">
+          <h3 class="text-2xl font-semibold mb-6">Tambah Soal</h3>
+          <section class="mt-10">
+  <h2 class="text-xl font-semibold text-gray-800 mb-4">Import Soal dari Excel</h2>
+  <form id="formImportExcel" class="bg-white p-6 rounded-2xl shadow-soft border border-gray-100 space-y-4">
+    <input
+      type="file"
+      id="excel-file"
+      accept=".xlsx"
+      class="block w-full text-sm text-gray-900 border border-gray-300 rounded-xl cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary"
+      required
+    />
+    <button
+      type="submit"
+      class="bg-primary hover:bg-blue-700 text-white px-6 py-2 rounded-xl font-medium transition"
+    >
+      Import Soal
+    </button>
+  </form>
+</section>
+         <form id="formTambahSoal" class="space-y-4 bg-white p-6 rounded-2xl shadow-soft border border-gray-100">
+        <input type="hidden" id="edit-id">
+        <input class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Pertanyaan" id="pertanyaan" required />
+        <div class="grid grid-cols-2 gap-4">
+          <input class="border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Pilihan A" id="a" required />
+          <input class="border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Pilihan B" id="b" required />
+          <input class="border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Pilihan C" id="c" required />
+          <input class="border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Pilihan D" id="d" required />
+          <input class="border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Pilihan E" id="e" required />
+        <select class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" id="jawaban" required>
+          <option value="">Pilih Jawaban Benar</option>
+          <option value="a">A</option>
+          <option value="b">B</option>
+          <option value="c">C</option>
+          <option value="d">D</option>
+          <option value="e">E</option>
+        </select>
+         </div>
+         <div class="flex items-center gap-2">
+            <button type="submit" id="submit-soal-btn" class="bg-primary hover:bg-blue-700 text-white px-6 py-2 rounded-xl font-medium transition">Simpan Soal</button>
+            <button type="button" id="cancel-edit-btn" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-2 rounded-xl font-medium transition hidden">Batal Edit</button>
+        </div>
+    </form>
+
+
+          <div class="mt-12">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-semibold">Daftar Soal</h3>
+                <button onclick="hapusSemuaSoal()"  id="hapus-semua-soal-btn" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl font-medium transition text-sm flex items-center gap-2">
+                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                    Hapus Semua Soal
+                </button>
+            </div>
+            <div class="overflow-x-auto">
+           <table class="w-full table-fixed bg-white shadow-soft rounded-2xl border border-gray-100">
+  <colgroup>
+    <col style="width: 6%" />    <!-- Kolom nomor (#) -->
+    <col style="width: 62%" />   <!-- Pertanyaan -->
+    <col style="width: 18%" />   <!-- Jawaban Benar -->
+    <col style="width: 14%" />   <!-- Aksi -->
+  </colgroup>
+  
+  <thead>
+    <tr class="bg-gray-100 text-left text-sm font-semibold text-gray-700">
+      <th class="px-4 py-3">No</th>
+      <th class="px-4 py-3">Pertanyaan</th>
+      <th class="px-4 py-3">Jawaban Benar</th>
+      <th class="px-4 py-3">Aksi</th>
+    </tr>
+  </thead>
+  <tbody id="tabel-soal" class="text-sm text-gray-800">
+    <!-- Baris soal akan dirender di sini -->
+  </tbody>
+</table>
+
+            </div>
+          </div>
+        </section>
+
+        <section id="tab-hasil" class="tab-section hidden">
+          <h3 class="text-2xl font-semibold mb-6">Hasil Ujian</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full bg-white shadow-soft rounded-2xl border border-gray-100">
+              <thead>
+                <tr class="bg-gray-100 text-left">
+                  <th class="px-4 py-3">Nama</th>
+                  <th class="px-4 py-3">Kelas</th>
+                  <th class="px-4 py-3">Nilai</th>
+                  <th class="px-4 py-3">Waktu</th>
+                </tr>
+              </thead>
+              <tbody id="tabel-hasil"></tbody>
+            </table>
+          </div>
+        </section>
+
+<section id="tab-monitoring" class="tab-section hidden">
+  <div class="flex justify-between items-center mb-6">
+    <h3 class="text-2xl font-semibold">Monitoring Realtime</h3>
+    <button id="clear-offline-btn" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl font-medium transition text-sm flex items-center gap-2">
+      <i data-lucide="trash-2" class="w-4 h-4"></i>
+      Bersihkan Siswa Offline
+    </button>
+  </div>
+  <div class="overflow-x-auto">
+    <table class="w-full bg-white shadow-soft rounded-2xl border border-gray-100">
+      <thead>
+        <tr class="bg-gray-100 text-left">
+          <th class="px-4 py-3">No</th>
+          <th class="px-4 py-3">Nama</th>
+          <th class="px-4 py-3">Kelas</th>
+          <th class="px-4 py-3">Aktivitas</th>
+          <th class="px-4 py-3">Progress</th>
+          <th class="px-4 py-3">Sisa Waktu</th>
+          <th class="px-4 py-3">Token</th>
+        </tr>
+      </thead>
+      <tbody id="tabel-monitoring"></tbody>
+    </table>
+  </div>
+</section>
+        
+        <section id="tab-pengaturan" class="tab-section hidden">
+    <h3 class="text-2xl font-semibold mb-6">Pengaturan Ujian</h3>
+    <form id="form-pengaturan" class="space-y-6 bg-white p-8 rounded-2xl shadow-soft border border-gray-100 w-full max-w-2xl">
+        <div>
+            <label for="durasi" class="block font-medium mb-2 text-gray-700">Durasi Ujian (menit)</label>
+            <input type="number" id="durasi" class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" required>
+        </div>
+        
+        <div class="border-t pt-6">
+            <h4 class="font-semibold text-gray-800 mb-3">Pengaturan Hasil Siswa</h4>
+            <div class="space-y-3">
+                <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                    <input type="checkbox" id="tampilkan-nilai" class="h-5 w-5 rounded text-primary focus:ring-primary">
+                    <div>
+                        <span class="font-medium text-gray-900">Tampilkan Nilai ke Siswa</span>
+                        <p class="text-sm text-gray-500">Jika dicentang, siswa akan melihat nilai akhir mereka setelah menyelesaikan ujian.</p>
+                    </div>
+                </label>
+                <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                    <input type="checkbox" id="tampilkan-review" class="h-5 w-5 rounded text-primary focus:ring-primary">
+                    <div>
+                        <span class="font-medium text-gray-900">Tampilkan Ulasan Jawaban</span>
+                        <p class="text-sm text-gray-500">Jika dicentang, siswa akan dapat melihat ulasan jawaban benar dan salah.</p>
+                    </div>
+                </label>
+            </div>
+        </div>
+
+        <div class="pt-4">
+            <button type="submit" class="bg-primary hover:bg-blue-700 text-white px-6 py-2 rounded-xl font-medium transition">
+                Simpan Pengaturan
+            </button>
+        </div>
+    </form>
+</section>
+      </main>
+    </div>
+
+    <script>
+      lucide.createIcons();
+      function showTab(tab) {
+        document.querySelectorAll('.tab-section').forEach(el => el.classList.add('hidden'));
+        document.getElementById(`tab-${tab}`).classList.remove('hidden');
+
+        document.querySelectorAll('aside button').forEach(btn => btn.classList.remove('bg-gray-200'));
+        document.getElementById(`nav-${tab}`).classList.add('bg-gray-200');
+      }
+      showTab('soal');
+    </script>
+    <script src="/socket.io/socket.io.js"></script>
+    <!-- <script src="../socket/monitoringSocket.js"></script> -->
+    <!-- <script src="/js/guru/dashboard.js"></script> -->
+    <script src="/js/guru/monitoring.js"></script>
+    <!-- <script src="/js/siswa/antiSwitch.js"></script> -->
+     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+     <script type="module" src="/js/guru/dashboard.js"></script>
+     
+
+    
+
+  </body>
+</html>

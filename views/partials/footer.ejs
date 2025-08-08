@@ -1,0 +1,21 @@
+<script>
+  lucide.createIcons();
+  
+  // Fungsi showTab tetap di sini karena ia mengontrol semua tab
+  function showTab(tab) {
+    document.querySelectorAll('.tab-section').forEach(el => el.classList.add('hidden'));
+    document.getElementById(`tab-${tab}`).classList.remove('hidden');
+
+    document.querySelectorAll('aside button').forEach(btn => btn.classList.remove('bg-gray-200'));
+    document.getElementById(`nav-${tab}`).classList.add('bg-gray-200');
+  }
+  showTab('soal'); // Tetap setel tab default
+</script>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script type="module" src="/js/guru/dashboard.js"></script>
+<script src="/js/guru/monitoring.js"></script>
+
+</body>
+</html>

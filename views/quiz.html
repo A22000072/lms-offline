@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ujian Siswa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .no-copy-paste {
+  -webkit-user-select: none;  /* Safari */
+  -moz-user-select: none;     /* Firefox */
+  -ms-user-select: none;      /* Internet Explorer/Edge */
+  user-select: none;          /* Standar */
+        }</style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center no-copy-paste">
+
+    <!-- MODAL IDENTITAS-->
+    <div id="modal-identitas" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
+        <h2 class="text-xl font-bold mb-4">Masukkan Identitas</h2>
+        <div class="mb-3">
+  <label for="id_unik" class="block mb-1">Nomor Absen / NISN</label>
+  <input type="text" id="id_unik" class="w-full border border-gray-300 px-3 py-2 rounded" />
+</div>
+        <div class="mb-3">
+          <label for="nama" class="block mb-1">Nama Lengkap</label>
+          <input type="text" id="nama" class="w-full border border-gray-300 px-3 py-2 rounded" />
+        </div>
+        <div class="mb-4">
+          <label for="kelas" class="block mb-1">Kelas</label>
+          <input type="text" id="kelas" class="w-full border border-gray-300 px-3 py-2 rounded" />
+        </div>
+        <button id="mulaiUjianBtn" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full">
+          Mulai Ujian
+        </button>
+      </div>
+    </div>
+
+    <!-- KONTEN UTAMA UJIAN -->
+    <div id="quiz-container" class="max-w-3xl w-full p-4"></div>
+
+    <!-- === UI BARU UNTUK ANTI-SWITCH === -->
+
+    <!-- 1. Overlay Peringatan Pertama -->
+    <div id="warning-overlay" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 hidden">
+        <div class="bg-white p-8 rounded-lg shadow-xl text-center max-w-sm mx-4">
+            <div class="flex justify-center mb-4">
+                <div class="bg-yellow-100 text-yellow-600 rounded-full p-3">
+                    <i data-lucide="alert-triangle" class="w-10 h-10"></i>
+                </div>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-800">Peringatan!</h2>
+            <p class="text-gray-600 mt-2">Anda terdeteksi meninggalkan halaman ujian. Tetap fokus pada ujian. Pelanggaran berulang akan menyebabkan ujian Anda diblokir.</p>
+            <button id="close-warning-btn" class="mt-6 bg-yellow-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-yellow-600 w-full">
+                Saya Mengerti
+            </button>
+        </div>
+    </div>
+
+    <!-- 2. Modal untuk Memasukkan Token -->
+    <div id="token-modal" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 hidden">
+        <div class="bg-white p-8 rounded-lg shadow-xl text-center max-w-sm mx-4">
+            <div class="flex justify-center mb-4">
+                <div class="bg-red-100 text-red-600 rounded-full p-3">
+                    <i data-lucide="shield-off" class="w-10 h-10"></i>
+                </div>
+            </div>
+            <h2 class="text-2xl font-bold text-red-700">Ujian Diblokir!</h2>
+            <p class="text-gray-600 mt-2">
+                Anda telah melakukan pelanggaran ke-<span id="pelanggaran-count" class="font-bold">2</span>. Untuk melanjutkan, silakan masukkan token dari pengawas.
+            </p>
+            <div class="mt-6">
+                <input type="text" id="token-input" placeholder="Masukkan Token" class="w-full border border-gray-300 text-center px-3 py-2 rounded-lg text-lg tracking-widest">
+                <p id="token-error" class="text-red-500 text-sm mt-2 hidden">Token tidak valid. Coba lagi.</p>
+            </div>
+            <button onclick="validateToken()" class="mt-4 bg-red-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-red-700 w-full">
+                Buka Blokir
+            </button>
+        </div>
+    </div>
+
+    <!-- === PEMUATAN SKRIP === -->
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script src="/js/siswa/quiz-monitoring.js"></script>
+
+    <script src="/js/siswa/anti-switch.js"></script>
+
+    <script src="/js/siswa/quiz.js"></script>
+    <!-- <script type="module" src="/js/siswa/quiz.js"></script> -->
+    <script>
+        // Inisialisasi ikon setelah semua elemen ada di DOM
+        lucide.createIcons();
+    </script>
+</body>
+</html>
